@@ -1,0 +1,19 @@
+# Turing machine to recognize the following language:
+#  L = {a^nb^m | m < n, n > 0}
+# Epsilon is represented as .
+q0 q1 q2 q3 q4 q5 q6 # States
+a b             # String alphabet
+a b .           # Tape alphabet
+q0              # Initial state
+q6              # Accepting states
+q0 a R q1 .     # Transitions 
+q1 a R q1 a
+q1 b R q1 b
+q1 . L q2 .
+q2 b L q3 .
+q2 a L q4 a
+q3 a L q3 a
+q3 b L q3 b
+q3 . R q0 .
+q4 a L q4 a
+q4 . S q5 .
