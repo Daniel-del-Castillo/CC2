@@ -13,22 +13,22 @@
 // Allows reading a turing machine from a file. The turing machine
 // can be a TuringMachine or DebugTuringMachine depending on a debug flag
 class TuringMachineReader {
+    Alphabet string_alphabet;
     Alphabet tape_alphabet;
-    Alphabet stack_alphabet;
     std::map<std::string, State> states; 
+    int number_of_tapes;
 
     public:
     static TuringMachine* read_turing_machine(std::istream& input, bool debug);
     TuringMachine* read_turing_machine_from_stream(std::istream& input, bool debug);
     
     private:
-    std::string read_line(std::istream& input);
-    std::map<std::string, State> read_states(const std::string& line);
-    Alphabet read_alphabet(const std::string& line);
-    std::string read_initial_state(const std::string& line);
-    char read_initial_stack_token(const std::string& line);
+    std::string read_line(std::istream& input) const;
+    std::map<std::string, State> read_states(const std::string& line) const;
+    Alphabet read_alphabet(const std::string& line) const;
+    void add_accepting_states(const std::string& line);
     void add_transitions(std::istream &input);
     void add_transition(const std::string& line, int id);
-    std::vector<std::string> split_whitespace(const std::string& line);
+    std::vector<std::string> split_whitespace(const std::string& line) const;
 };
 

@@ -6,14 +6,15 @@ a b             # String alphabet
 a b .           # Tape alphabet
 q0              # Initial state
 q6              # Accepting states
-q0 a R q1 .     # Transitions 
-q1 a R q1 a
-q1 b R q1 b
-q1 . L q2 .
-q2 b L q3 .
-q2 a L q4 a
-q3 a L q3 a
-q3 b L q3 b
-q3 . R q0 .
-q4 a L q4 a
-q4 . S q5 .
+1               # Number of tapes
+q0 q1 a R .     # Transitions. The last three character have to be repeated for each tape
+q1 q1 a R a
+q1 q1 b R b
+q1 q2 . L .
+q2 q3 b L .
+q2 q4 a L a
+q3 q3 a L a
+q3 q3 b L b
+q3 q0 . R .
+q4 q4 a L a
+q4 q5 . S .
