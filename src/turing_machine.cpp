@@ -47,11 +47,11 @@ void TuringMachine::check_transition_integrity(const Transition& transition) con
 }
 
 void TuringMachine::check_action_integrity(const Action& action) const {
-    if (!tape_alphabet.contains(action.get_read_token())) {
-        throw logic_error(string("Token \"") + action.get_read_token() + "\" isn't in the tape alphabet");
+    if (!tape_alphabet.contains(action.get_token_to_read())) {
+        throw logic_error(string("Token \"") + action.get_token_to_read() + "\" isn't in the tape alphabet");
     }
-    if (!tape_alphabet.contains(action.get_written_token())) {
-        throw logic_error(string("Token \"") + action.get_written_token() + "\" isn't in the tape alphabet");
+    if (!tape_alphabet.contains(action.get_token_to_write())) {
+        throw logic_error(string("Token \"") + action.get_token_to_write() + "\" isn't in the tape alphabet");
     }
 }
 

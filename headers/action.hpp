@@ -5,13 +5,13 @@
 // An Action represents the movement and the tokens that must be read
 // and written in a certain tape to perform a transition
 class Action {
-    char read_token;
+    char token_to_read;
     Movement move;
-    char written_token;
+    char token_to_write;
     
     public:
-    Action(char read_token, Movement move, char written_token);
-    char get_read_token() const;
+    Action(char token_to_read, Movement move, char token_to_write);
+    char get_token_to_read() const;
     Movement get_movement() const;
-    char get_written_token() const;
+    char get_token_to_write() const;
 };

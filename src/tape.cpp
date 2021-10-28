@@ -3,6 +3,8 @@
 using std::vector;
 using std::logic_error;
 
+Tape::Tape() {}
+
 Tape::Tape(const vector<char>& contents) {
     for(char token : contents) {
         this->contents.push_back(token);
@@ -14,8 +16,8 @@ char Tape::read() const {
     return *actual_position;
 }
 
-void Tape::execute_action(char written_token, Movement move) {
-    *actual_position = written_token;
+void Tape::execute_action(char token_to_write, Movement move) {
+    *actual_position = token_to_write;
     switch (move) {
     case Movement::Left:
         move_left();

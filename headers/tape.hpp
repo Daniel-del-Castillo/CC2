@@ -17,9 +17,10 @@ class Tape {
     std::deque<char>::iterator actual_position;
     
     public:
+    Tape();
     Tape(const std::vector<char>& contents);
     char read() const;
-    void execute_action(char written_token, Movement move);
+    void execute_action(char token_to_write, Movement move);
     
     private:
     void move_left();
