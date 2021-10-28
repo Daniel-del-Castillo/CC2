@@ -23,6 +23,9 @@ void TuringMachine::check_integrity() const {
     if (states.count(initial_state) == 0) {
         throw logic_error("Initial state (" + initial_state + ") isn't part of the states");
     }
+    if (string_alphabet.contains(WHITE)) {
+        throw logic_error(string("The string alphabet can't contain the white token (") + WHITE + ")");
+    }
     check_states_integrity();
 }
 
@@ -55,6 +58,5 @@ void TuringMachine::check_action_integrity(const Action& action) const {
 TuringMachine::~TuringMachine() {}
 
 bool TuringMachine::check_string(const string& s) const {
-    deque<char> stack;
-    return false;
+    return s[0] == '+';
 }

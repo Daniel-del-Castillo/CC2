@@ -19,10 +19,10 @@ bool State::is_accepting_state() const {
     return is_accepting;
 }
 
-vector<Transition> State::get_valid_transitions(char tape_token, char stack_token) const {
+vector<Transition> State::get_valid_transitions(const vector<char>& input_tokens) const {
     vector<Transition> result;
     for (const Transition& transition : transitions) {
-       if (transition.is_valid_transition(tape_token, stack_token)) {
+       if (transition.is_valid_transition(input_tokens)) {
             result.push_back(transition);
         }
     }

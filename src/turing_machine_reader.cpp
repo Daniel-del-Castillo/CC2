@@ -16,7 +16,7 @@ TuringMachine* TuringMachineReader::read_turing_machine_from_stream(istream& inp
     states = read_states(read_line(input));
     string_alphabet = read_alphabet(read_line(input));
     tape_alphabet = read_alphabet(read_line(input));
-    tape_alphabet.add_token(EPSILON);
+    tape_alphabet.add_token(WHITE);
     string initial_state = read_line(input);
     add_accepting_states(read_line(input));
     number_of_tapes = stoi(read_line(input));
@@ -124,7 +124,7 @@ void TuringMachineReader::add_transition(const string& line, int id) {
         Action new_action(tokens[i][0], Movement(tokens[i + 1][0]), tokens[i + 2][0]);
         transition_actions.push_back(new_action);
     }
-    Transition transition(id, destination_state, transition_actions);
+    Transition transition(destination_state, transition_actions, id);
     states.at(tokens[0]).add_transition(transition);
 }
 

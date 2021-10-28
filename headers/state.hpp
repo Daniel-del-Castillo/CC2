@@ -16,6 +16,6 @@ class State {
     void add_transition(Transition transition);
     void set_accepting_state();
     bool is_accepting_state() const;
-    std::vector<Transition> get_valid_transitions(char tape_token, char stack_token) const;
+    std::vector<Transition> get_valid_transitions(const std::vector<char>& input_tokens) const;
     const std::vector<Transition>& get_transitions() const;
 };
