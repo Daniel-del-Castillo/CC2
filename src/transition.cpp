@@ -26,6 +26,10 @@ vector<Action> Transition::get_actions() const {
 }
 
 bool Transition::is_valid_transition(const std::vector<char>& input_tokens) const {
-    // TODO    
-    return false;
+    for (size_t i = 0; i <  input_tokens.size(); i++) {
+        if (input_tokens[i] != actions[i].get_read_token()) {
+            return false ;
+        } 
+    }
+    return true;
 }
