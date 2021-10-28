@@ -3,9 +3,11 @@
 #include <map>
 #include <string>
 #include <deque>
+#include <stdexcept>
 
 #include "headers/alphabet.hpp"
 #include "headers/state.hpp"
+#include "headers/tape.hpp"
 
 // A class intented to emulate a turing machine
 class TuringMachine {
@@ -14,7 +16,8 @@ class TuringMachine {
     Alphabet tape_alphabet;
     std::map<std::string, State> states;
     std::string initial_state;
-    int number_of_tapes; 
+    std::string actual_state;
+    std::vector<Tape> tapes;
     
     public: 
     TuringMachine(
@@ -29,5 +32,7 @@ class TuringMachine {
     
     protected:
     void check_integrity() const;
-    virtual bool check_string(const std::string& s, const std::string& actual_state, std::deque<char> stack) const;
+    void check_states_integrity() const;
+    void check_transition_integrity(const Transition& transition) const;
+    void check_action_integrity(const Action& action) const;
 };

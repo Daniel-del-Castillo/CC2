@@ -24,8 +24,6 @@ class Transition {
     );
     std::string get_destination() const;
     int get_id() const;
-    char get_tape_token() const;
-    char get_stack_token() const;
-    std::vector<char> get_new_stack_tokens() const;
-    bool is_valid_transition(char tape_token, char stack_token) const;
+    std::vector<Action> get_actions() const;
+    bool is_valid_transition(const std::vector<char>& input_tokens) const;
 };

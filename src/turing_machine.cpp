@@ -4,6 +4,7 @@ using std::map;
 using std::string;
 using std::deque;
 using std::vector;
+using std::logic_error;
 
 TuringMachine::TuringMachine(
     Alphabet string_alphabet,
@@ -16,35 +17,44 @@ TuringMachine::TuringMachine(
     tape_alphabet(tape_alphabet),
     states(states),
     initial_state(initial_state),
-    number_of_tapes(number_of_tapes) {}
+    tapes(number_of_tapes, Tape()) {}
 
 void TuringMachine::check_integrity() const {
-    // if (states.count(initial_state) == 0) {
-    //     throw logic_error("Initial state (" + line + ") isn't part of the states");
-    // }
-    // if (!tape_alphabet.contains(words[1][0])) {
-    //     throw logic_error(string("Token (") + words[1][0] + ") isn't registered in the tape alphabet");
-    // }
-    // if (!stack_alphabet.contains(words[2][0])) {
-    //     throw logic_error(string("Token (") + words[2][0] + ") isn't registered in the stack alphabet");
-    // }
-    // if (words[2][0] == EPSILON) {
-    //     throw logic_error("A transition must always consume a token from the stack");
-    // }
-    // if (states.count(words[3]) == 0) {
-    //     throw logic_error("State (" + words[3] + ") isn't registered");
-    // }
-    // if (!stack_alphabet.contains(words[i][0])) {
-    //     throw logic_error(string("Token (") + words[i][0] + ") isn't registered in the stack alphabet");
+    if (states.count(initial_state) == 0) {
+        throw logic_error("Initial state (" + initial_state + ") isn't part of the states");
+    }
+    check_states_integrity();
+}
+
+void TuringMachine::check_states_integrity() const {
+    for (auto name_state_pair : states) {
+        for (auto transition : name_state_pair.second.get_transitions()) {
+            check_transition_integrity(transition);
+        }
+    }
+}
+
+void TuringMachine::check_transition_integrity(const Transition& transition) const {
+    if (states.count(transition.get_destination()) == 0) {
+        throw logic_error("State (" + transition.get_destination() + ") isn't part of the defined states");
+    }
+    for (auto action : transition.get_actions()) {
+        check_action_integrity(action);
+    }
+}
+
+void TuringMachine::check_action_integrity(const Action& action) const {
+    if (!tape_alphabet.contains(action.get_read_token())) {
+        throw logic_error(string("Token \"") + action.get_read_token() + "\" isn't in the tape alphabet");
+    }
+    if (!tape_alphabet.contains(action.get_written_token())) {
+        throw logic_error(string("Token \"") + action.get_written_token() + "\" isn't in the tape alphabet");
+    }
 }
 
 TuringMachine::~TuringMachine() {}
 
 bool TuringMachine::check_string(const string& s) const {
     deque<char> stack;
-    return check_string(s, initial_state, stack);
-}
-
-bool TuringMachine::check_string(const string& s, const string& actual_state_name, deque<char> stack) const {
     return false;
 }

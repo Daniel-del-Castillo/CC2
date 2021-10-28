@@ -11,4 +11,7 @@ class Action {
     
     public:
     Action(char read_token, Movement move, char written_token);
+    char get_read_token() const;
+    Movement get_movement() const;
+    char get_written_token() const;
 };
