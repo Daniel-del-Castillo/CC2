@@ -6,12 +6,12 @@ using std::string;
 using std::vector;
 
 Transition::Transition(
-    int id,
     std::string destination,
-    std::vector<Action> actions
-) : id(id),
-    destination(destination),
-    actions(actions) {}
+    std::vector<Action> actions,
+    int id
+) : destination(destination),
+    actions(actions),
+    id(id) {}
 
 int Transition::get_id() const {
     return id;

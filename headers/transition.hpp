@@ -12,15 +12,15 @@
 // for each tape. It also contains an id, so the transitions are easier to
 // identify in the traces
 class Transition {
-    int id;
     std::string destination;  
     std::vector<Action> actions;
+    int id;
     
     public:
     Transition(
-        int id,
         std::string destination,
-        std::vector<Action> actions
+        std::vector<Action> actions,
+        int id = 0
     );
     std::string get_destination() const;
     int get_id() const;
