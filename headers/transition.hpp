@@ -6,8 +6,6 @@
 #include "headers/tape.hpp"
 #include "headers/action.hpp"
 
-#define WHITE '.'
-
 // Represents a transition consisting of the destination state and an action
 // for each tape. It also contains an id, so the transitions are easier to
 // identify in the traces

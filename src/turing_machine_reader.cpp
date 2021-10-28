@@ -102,8 +102,8 @@ void TuringMachineReader::add_transition(const string& line, int id) {
     vector<string> tokens = split_whitespace(line);
     // 2 tokens for the start and destination states and 3 more for each tape
     // representing the read token, the movement and the written token 
-    if (tokens.size() == 2 + size_t(number_of_tapes) * 3) {
-        throw logic_error("Invalid transition" + line);
+    if (tokens.size() != 2 + size_t(number_of_tapes) * 3) {
+        throw logic_error("Invalid transition: " + line);
     }
     if (states.count(tokens[0]) == 0) {
         throw logic_error("State (" + tokens[0] + ") isn't registered");
