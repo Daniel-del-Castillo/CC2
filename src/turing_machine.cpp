@@ -29,10 +29,13 @@ TuringMachine::~TuringMachine() {}
 
 void TuringMachine::check_integrity() const {
     if (states.count(initial_state) == 0) {
-        throw logic_error("Initial state (" + initial_state + ") isn't part of the states");
+        throw logic_error("Initial state (" + initial_state + 
+            ") isn't part of the states");
     }
     if (string_alphabet.contains(WHITE)) {
-        throw logic_error(string("The string alphabet can't contain the white token (") + WHITE + ")");
+        throw logic_error(
+            string("The string alphabet can't contain the white token (") + WHITE + ")"
+        );
     }
     for (auto name_state_pair : states) {
         check_states_integrity(name_state_pair.second, name_state_pair.first);
@@ -44,7 +47,8 @@ void TuringMachine::check_states_integrity(const State& state, const string& nam
     // We only check the first transition because all of them
     // must have the same number of actions
     if (!transitions.empty() && transitions[0].get_actions().size() == tapes.size()) {
-        throw logic_error("Transition (" + name + ") doesn't have the correct number of actions");
+        throw logic_error("Transition (" + name + 
+            ") doesn't have the correct number of actions");
     }
     for (auto transition : transitions) {
         check_transition_integrity(transition);
@@ -53,7 +57,8 @@ void TuringMachine::check_states_integrity(const State& state, const string& nam
 
 void TuringMachine::check_transition_integrity(const Transition& transition) const {
     if (states.count(transition.get_destination()) == 0) {
-        throw logic_error("State (" + transition.get_destination() + ") isn't part of the defined states");
+        throw logic_error("State (" + transition.get_destination() + 
+            ") isn't part of the defined states");
     }
     for (auto action : transition.get_actions()) {
         check_action_integrity(action);
@@ -62,10 +67,12 @@ void TuringMachine::check_transition_integrity(const Transition& transition) con
 
 void TuringMachine::check_action_integrity(const Action& action) const {
     if (!tape_alphabet.contains(action.get_token_to_read())) {
-        throw logic_error(string("Token \"") + action.get_token_to_read() + "\" isn't in the tape alphabet");
+        throw logic_error(string("Token \"") + action.get_token_to_read() + 
+            "\" isn't in the tape alphabet");
     }
     if (!tape_alphabet.contains(action.get_token_to_write())) {
-        throw logic_error(string("Token \"") + action.get_token_to_write() + "\" isn't in the tape alphabet");
+        throw logic_error(string("Token \"") + action.get_token_to_write() + 
+            "\" isn't in the tape alphabet");
     }
 }
 

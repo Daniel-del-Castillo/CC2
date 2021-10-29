@@ -111,7 +111,8 @@ void TuringMachineReader::add_transition(const string& line, int id) {
     try {
         states.at(tokens[0]).add_transition(read_transition(tokens, id));
     } catch (logic_error& error) {
-        throw logic_error("Transition \"" + line + "\" has the same input as another transition from the same state");
+        throw logic_error("Transition \"" + line + 
+            "\" has the same input as another transition from the same state");
     }
 }
 
