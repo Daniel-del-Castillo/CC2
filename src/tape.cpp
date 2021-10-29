@@ -1,15 +1,22 @@
 #include "headers/tape.hpp"
 
 using std::vector;
+using std::deque;
+using std::string;
 using std::logic_error;
 
 Tape::Tape() {}
 
-Tape::Tape(const vector<char>& contents) {
-    for(char token : contents) {
+void Tape::set_content(const string& content) {
+    for(char token : content) {
         this->contents.push_back(token);
     }
     actual_position = this->contents.begin();
+}
+
+void Tape::clear() {
+    contents.clear();
+    actual_position = contents.begin();
 }
 
 char Tape::read() const {

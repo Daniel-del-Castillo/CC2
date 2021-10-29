@@ -4,6 +4,7 @@
 
 using std::string;
 using std::vector;
+using std::logic_error;
 
 Transition::Transition(
     std::string destination,
@@ -11,7 +12,11 @@ Transition::Transition(
     int id
 ) : destination(destination),
     actions(actions),
-    id(id) {}
+    id(id) {
+       if (actions.size() < 1) {
+           throw logic_error("A transition must have actions");
+       }
+    }
 
 int Transition::get_id() const {
     return id;
@@ -23,6 +28,14 @@ string Transition::get_destination() const {
 
 vector<Action> Transition::get_actions() const {
     return actions;
+}
+
+vector<char> Transition::get_tokens_to_read() const {
+    vector<char> result;
+    for (const Action& action : actions) {
+        result.push_back(action.get_token_to_read());
+    }
+    return result;
 }
 
 bool Transition::is_valid_transition(const std::vector<char>& input_tokens) const {

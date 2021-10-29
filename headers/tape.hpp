@@ -2,6 +2,7 @@
 
 #include <deque>
 #include <vector>
+#include <string>
 #include <stdexcept>
 
 #define WHITE '.'
@@ -18,7 +19,8 @@ class Tape {
     
     public:
     Tape();
-    Tape(const std::vector<char>& contents);
+    void set_content(const std::string& content);
+    void clear();
     char read() const;
     void execute_action(char token_to_write, Movement move);
     

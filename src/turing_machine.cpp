@@ -2,6 +2,7 @@
 
 using std::map;
 using std::string;
+using std::to_string;
 using std::deque;
 using std::vector;
 using std::logic_error;
@@ -17,7 +18,14 @@ TuringMachine::TuringMachine(
     tape_alphabet(tape_alphabet),
     states(states),
     initial_state(initial_state),
-    tapes(number_of_tapes, Tape()) {}
+    tapes(number_of_tapes, Tape()) {
+        if(number_of_tapes < 1) {
+            throw logic_error("The number of tapes must be greater than 0");
+        }
+        check_integrity();
+    }
+
+TuringMachine::~TuringMachine() {}
 
 void TuringMachine::check_integrity() const {
     if (states.count(initial_state) == 0) {
@@ -26,14 +34,20 @@ void TuringMachine::check_integrity() const {
     if (string_alphabet.contains(WHITE)) {
         throw logic_error(string("The string alphabet can't contain the white token (") + WHITE + ")");
     }
-    check_states_integrity();
+    for (auto name_state_pair : states) {
+        check_states_integrity(name_state_pair.second, name_state_pair.first);
+    }
 }
 
-void TuringMachine::check_states_integrity() const {
-    for (auto name_state_pair : states) {
-        for (auto transition : name_state_pair.second.get_transitions()) {
-            check_transition_integrity(transition);
-        }
+void TuringMachine::check_states_integrity(const State& state, const string& name) const {
+    vector<Transition> transitions = state.get_transitions();
+    // We only check the first transition because all of them
+    // must have the same number of actions
+    if (!transitions.empty() && transitions[0].get_actions().size() == tapes.size()) {
+        throw logic_error("Transition (" + name + ") doesn't have the correct number of actions");
+    }
+    for (auto transition : transitions) {
+        check_transition_integrity(transition);
     }
 }
 
@@ -55,8 +69,44 @@ void TuringMachine::check_action_integrity(const Action& action) const {
     }
 }
 
-TuringMachine::~TuringMachine() {}
+bool TuringMachine::check_string(const string& s) {
+    reset_tapes();
+    tapes[0].set_content(s);
+    actual_state = initial_state;
+    execution_loop();
+    return states.at(actual_state).is_accepting_state();
+}
 
-bool TuringMachine::check_string(const string& s) const {
-    return s[0] == '+';
+void TuringMachine::execution_loop() {
+    while (true) {
+        auto transition = states[actual_state].get_valid_transition(read());
+        if (!transition.has_value()) {
+            break;
+        }
+        apply_transition(transition.value());
+    }
+}
+
+void TuringMachine::apply_transition(const Transition& transition) {
+    vector<Action> actions = transition.get_actions();
+    for (size_t i = 0; i < actions.size(); i++) {
+        tapes[i].execute_action(
+            actions[i].get_token_to_write(),
+            actions[i].get_movement()
+        );
+    }
+}
+
+void TuringMachine::reset_tapes() {
+    for (auto tape : tapes) {
+        tape.clear();
+    }
+}
+
+vector<char> TuringMachine::read() const {
+    vector<char> result;
+    for (auto tape : tapes) {
+        result.push_back(tape.read());    
+    }
+    return result;
 }

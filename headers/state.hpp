@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <optional>
+#include <stdexcept>
 
 #include "headers/transition.hpp"
 
@@ -13,9 +15,12 @@ class State {
     public:
     State();
     State(bool is_accepting);
-    void add_transition(Transition transition);
+    void add_transition(const Transition& new_transition);
     void set_accepting_state();
     bool is_accepting_state() const;
-    std::vector<Transition> get_valid_transitions(const std::vector<char>& input_tokens) const;
+    std::optional<Transition> get_valid_transition(const std::vector<char>& input_tokens) const;
     const std::vector<Transition>& get_transitions() const;
+    
+    private:
+    bool can_be_added(const Transition& new_transition);
 };

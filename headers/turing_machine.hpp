@@ -28,11 +28,15 @@ class TuringMachine {
         int number_of_tapes
     );
     virtual ~TuringMachine();
-    virtual bool check_string(const std::string& s) const;
+    virtual bool check_string(const std::string& s);
     
     protected:
     void check_integrity() const;
-    void check_states_integrity() const;
+    void check_states_integrity(const State& state, const string& name) const;
     void check_transition_integrity(const Transition& transition) const;
     void check_action_integrity(const Action& action) const;
+    void execution_loop();
+    void apply_transition(const Transition& transition);
+    void reset_tapes();
+    std::vector<char> read() const;
 };

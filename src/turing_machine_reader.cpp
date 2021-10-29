@@ -116,16 +116,19 @@ void TuringMachineReader::add_transition(const string& line, int id) {
             tokens[i + 1][0] != Movement::Right &&
             tokens[i + 1][0] != Movement::Stay) {
             throw logic_error(
-                string("Token (") + tokens[i + 1][0] +
-                ") must represent a movement: Right(R), Left(L) or Stay(S)"
+                string("Token \"") + tokens[i + 1][0] +
+                "\" must represent a movement: Right(R), Left(L) or Stay(S)"
             );
-            
         }
         Action new_action(tokens[i][0], Movement(tokens[i + 1][0]), tokens[i + 2][0]);
         transition_actions.push_back(new_action);
     }
     Transition transition(destination_state, transition_actions, id);
-    states.at(tokens[0]).add_transition(transition);
+    try {
+        states.at(tokens[0]).add_transition(transition);
+    } catch (logic_error& error) {
+        throw logic_error("Transition \"" + line + "\" has the same input as another transition from the same state");
+    }
 }
 
 vector<string> TuringMachineReader::split_whitespace(const string& line) const {
