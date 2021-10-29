@@ -46,7 +46,7 @@ void TuringMachine::check_states_integrity(const State& state, const string& nam
     vector<Transition> transitions = state.get_transitions();
     // We only check the first transition because all of them
     // must have the same number of actions
-    if (!transitions.empty() && transitions[0].get_actions().size() == tapes.size()) {
+    if (!transitions.empty() && transitions[0].get_actions().size() != tapes.size()) {
         throw logic_error("Transition (" + name + 
             ") doesn't have the correct number of actions");
     }

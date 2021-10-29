@@ -17,7 +17,7 @@ TuringMachine* TuringMachineReader::read_turing_machine_from_stream(istream& inp
     string_alphabet = read_alphabet(read_line(input));
     tape_alphabet = read_alphabet(read_line(input));
     tape_alphabet.add_token(WHITE);
-    string initial_state = read_line(input);
+    string initial_state = split_whitespace(read_line(input))[0];
     add_accepting_states(read_line(input));
     number_of_tapes = stoi(read_line(input));
     add_transitions(input);
@@ -105,11 +105,13 @@ void TuringMachineReader::add_transition(const string& line, int id) {
     if (tokens.size() != 2 + size_t(number_of_tapes) * 3) {
         throw logic_error("Invalid transition: " + line);
     }
-    if (states.count(tokens[0]) == 0) {
-        throw logic_error("State (" + tokens[0] + ") isn't registered");
+    string state_name = tokens[0];
+    if (states.count(state_name) == 0) {
+        throw logic_error("State (" + state_name + ") isn't registered");
     }
+    Transition transition = read_transition(tokens, id);
     try {
-        states.at(tokens[0]).add_transition(read_transition(tokens, id));
+        states.at(state_name).add_transition(transition);
     } catch (logic_error& error) {
         throw logic_error("Transition \"" + line + 
             "\" has the same input as another transition from the same state");
@@ -119,7 +121,7 @@ void TuringMachineReader::add_transition(const string& line, int id) {
 Transition TuringMachineReader::read_transition(vector<string>& tokens, int id) const {
     string initial_state = tokens[0];
     string destination_state = tokens[1];
-    tokens.erase(tokens.begin() + 1);
+    tokens.erase(tokens.begin(), tokens.begin() + 2);
     vector<Action> transition_actions = read_actions(tokens);
     Transition transition(destination_state, transition_actions, id);
     return transition;
