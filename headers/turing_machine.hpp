@@ -32,7 +32,7 @@ class TuringMachine {
     
     protected:
     void check_integrity() const;
-    void check_states_integrity(const State& state, const string& name) const;
+    void check_states_integrity(const State& state, const std::string& name) const;
     void check_transition_integrity(const Transition& transition) const;
     void check_action_integrity(const Action& action) const;
     void execution_loop();

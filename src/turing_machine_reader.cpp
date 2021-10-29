@@ -108,27 +108,43 @@ void TuringMachineReader::add_transition(const string& line, int id) {
     if (states.count(tokens[0]) == 0) {
         throw logic_error("State (" + tokens[0] + ") isn't registered");
     }
-    string initial_state = tokens[0];
-    string destination_state = tokens[1];
-    vector<Action> transition_actions;
-    for (size_t i = 2; i < tokens.size(); i += 3) {
-        if (tokens[i + 1][0] != Movement::Left &&
-            tokens[i + 1][0] != Movement::Right &&
-            tokens[i + 1][0] != Movement::Stay) {
-            throw logic_error(
-                string("Token \"") + tokens[i + 1][0] +
-                "\" must represent a movement: Right(R), Left(L) or Stay(S)"
-            );
-        }
-        Action new_action(tokens[i][0], Movement(tokens[i + 1][0]), tokens[i + 2][0]);
-        transition_actions.push_back(new_action);
-    }
-    Transition transition(destination_state, transition_actions, id);
     try {
-        states.at(tokens[0]).add_transition(transition);
+        states.at(tokens[0]).add_transition(read_transition(tokens, id));
     } catch (logic_error& error) {
         throw logic_error("Transition \"" + line + "\" has the same input as another transition from the same state");
     }
+}
+
+Transition TuringMachineReader::read_transition(vector<string>& tokens, int id) const {
+    string initial_state = tokens[0];
+    string destination_state = tokens[1];
+    tokens.erase(tokens.begin() + 1);
+    vector<Action> transition_actions = read_actions(tokens);
+    Transition transition(destination_state, transition_actions, id);
+    return transition;
+}
+
+vector<Action> TuringMachineReader::read_actions(const vector<string>& tokens) const {
+    vector<Action> actions;
+    for (size_t i = 0; i < tokens.size(); i += 3) {
+        actions.push_back(
+            read_action(tokens[i][0], tokens[i + 1][0], tokens[i + 2][0])
+        );
+    }
+    return actions; 
+}
+
+Action TuringMachineReader::read_action(char input, char move, char output) const {
+    if (move != Movement::Left &&
+        move != Movement::Right &&
+        move != Movement::Stay) {
+        throw logic_error(
+            string("Token \"") + move +
+            "\" must represent a movement: Right(R), Left(L) or Stay(S)"
+        );
+    }
+    Action new_action(input, Movement(move), output);
+    return new_action;
 }
 
 vector<string> TuringMachineReader::split_whitespace(const string& line) const {
