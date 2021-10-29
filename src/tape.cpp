@@ -5,10 +5,17 @@ using std::deque;
 using std::string;
 using std::logic_error;
 
-Tape::Tape() {}
+Tape::Tape() {
+    contents.push_back(WHITE);
+    actual_position = contents.begin();
+}
 
-void Tape::set_content(const string& content) {
-    for(char token : content) {
+void Tape::set_content(const string& contents) {
+    if (contents.empty()) {
+        return;
+    }
+    this->contents.clear();
+    for(char token : contents) {
         this->contents.push_back(token);
     }
     actual_position = this->contents.begin();
@@ -16,11 +23,21 @@ void Tape::set_content(const string& content) {
 
 void Tape::clear() {
     contents.clear();
+    contents.push_back(WHITE);
     actual_position = contents.begin();
 }
 
 char Tape::read() const {
     return *actual_position;
+}
+
+
+const std::deque<char>& Tape::get_contents() const {
+    return contents;    
+}
+
+const std::deque<char>::iterator& Tape::get_actual_position() const {
+    return actual_position;
 }
 
 void Tape::execute_action(char token_to_write, Movement move) {
@@ -43,12 +60,12 @@ void Tape::move_left() {
     if (actual_position == contents.begin()) {
         contents.push_front(WHITE);
     }
-    actual_position -= 1;
+    actual_position--;
 }
 
 void Tape::move_right() {
     if (actual_position + 1 == contents.end()) {
         contents.push_back(WHITE);
     }
-    actual_position += 1;
+    actual_position++;
 }

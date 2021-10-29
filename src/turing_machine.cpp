@@ -6,6 +6,7 @@ using std::to_string;
 using std::deque;
 using std::vector;
 using std::logic_error;
+using std::optional;
 
 TuringMachine::TuringMachine(
     Alphabet string_alphabet,
@@ -37,7 +38,7 @@ void TuringMachine::check_integrity() const {
             string("The string alphabet can't contain the white token (") + WHITE + ")"
         );
     }
-    for (auto name_state_pair : states) {
+    for (auto& name_state_pair : states) {
         check_states_integrity(name_state_pair.second, name_state_pair.first);
     }
 }
@@ -50,7 +51,7 @@ void TuringMachine::check_states_integrity(const State& state, const string& nam
         throw logic_error("Transition (" + name + 
             ") doesn't have the correct number of actions");
     }
-    for (auto transition : transitions) {
+    for (const auto& transition : transitions) {
         check_transition_integrity(transition);
     }
 }
@@ -60,7 +61,7 @@ void TuringMachine::check_transition_integrity(const Transition& transition) con
         throw logic_error("State (" + transition.get_destination() + 
             ") isn't part of the defined states");
     }
-    for (auto action : transition.get_actions()) {
+    for (const auto& action : transition.get_actions()) {
         check_action_integrity(action);
     }
 }
@@ -85,34 +86,36 @@ bool TuringMachine::check_string(const string& s) {
 }
 
 void TuringMachine::execution_loop() {
-    while (true) {
-        auto transition = states[actual_state].get_valid_transition(read());
-        if (!transition.has_value()) {
-            break;
-        }
-        apply_transition(transition.value());
-    }
+    optional<Transition> transition;
+    do {
+        transition = states[actual_state].get_valid_transition(read());
+    } while (apply_transition(transition));
 }
 
-void TuringMachine::apply_transition(const Transition& transition) {
-    vector<Action> actions = transition.get_actions();
+bool TuringMachine::apply_transition(const optional<Transition>& transition) {
+    if (!transition.has_value()) {
+        return false;
+    }
+    vector<Action> actions = transition.value().get_actions();
     for (size_t i = 0; i < actions.size(); i++) {
         tapes[i].execute_action(
             actions[i].get_token_to_write(),
             actions[i].get_movement()
         );
     }
+    actual_state = transition.value().get_destination();
+    return true;
 }
 
 void TuringMachine::reset_tapes() {
-    for (auto tape : tapes) {
+    for (Tape& tape : tapes) {
         tape.clear();
     }
 }
 
 vector<char> TuringMachine::read() const {
     vector<char> result;
-    for (auto tape : tapes) {
+    for (const auto& tape : tapes) {
         result.push_back(tape.read());    
     }
     return result;

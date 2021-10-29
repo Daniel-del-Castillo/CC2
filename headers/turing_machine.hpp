@@ -4,6 +4,7 @@
 #include <string>
 #include <deque>
 #include <stdexcept>
+#include <optional>
 
 #include "headers/alphabet.hpp"
 #include "headers/state.hpp"
@@ -36,7 +37,7 @@ class TuringMachine {
     void check_transition_integrity(const Transition& transition) const;
     void check_action_integrity(const Action& action) const;
     void execution_loop();
-    void apply_transition(const Transition& transition);
+    virtual bool apply_transition(const std::optional<Transition>& transition);
     void reset_tapes();
     std::vector<char> read() const;
 };

@@ -7,6 +7,7 @@
 #include <stdexcept>
 
 #include "headers/turing_machine.hpp"
+#include "headers/debug_turing_machine.hpp"
 #include "headers/state.hpp"
 #include "headers/alphabet.hpp"
 

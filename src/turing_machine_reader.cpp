@@ -22,7 +22,7 @@ TuringMachine* TuringMachineReader::read_turing_machine_from_stream(istream& inp
     number_of_tapes = stoi(read_line(input));
     add_transitions(input);
     if (debug) {
-        return new TuringMachine(
+        return (TuringMachine*) new DebugTuringMachine(
             string_alphabet,
             tape_alphabet,
             states,

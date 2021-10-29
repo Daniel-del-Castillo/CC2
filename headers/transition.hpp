@@ -25,5 +25,7 @@ class Transition {
     int get_id() const;
     std::vector<Action> get_actions() const;
     std::vector<char> get_tokens_to_read() const;
+    std::vector<Movement> get_movements() const;
+    std::vector<char> get_tokens_to_write() const;
     bool is_valid_transition(const std::vector<char>& input_tokens) const;
 };

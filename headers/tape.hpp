@@ -22,6 +22,8 @@ class Tape {
     void set_content(const std::string& content);
     void clear();
     char read() const;
+    const std::deque<char>& get_contents() const;
+    const std::deque<char>::iterator& get_actual_position() const;
     void execute_action(char token_to_write, Movement move);
     
     private:
