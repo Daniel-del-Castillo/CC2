@@ -10,7 +10,8 @@
 #include "headers/state.hpp"
 #include "headers/tape.hpp"
 
-// A class intented to emulate a turing machine
+// A class intented to emulate a turing machine. The TM has an infinite
+// number of infinite tapes and can also move (right or left) or stay still
 class TuringMachine {
     protected:
     Alphabet string_alphabet;

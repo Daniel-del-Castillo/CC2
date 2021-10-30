@@ -1,6 +1,6 @@
 # Turing machine to recognize the following language:
 #  L = {w | w is palindrome}
-# Epsilon is represented as .
+# White is represented as .
 q0 q1 q2              # States
 a b                   # String alphabet
 a b .                 # Tape alphabet

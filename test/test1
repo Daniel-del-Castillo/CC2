@@ -1,6 +1,6 @@
 # Turing machine to recognize the following language:
 #  L = {a^nb^m | m < n, n > 0}
-# Epsilon is represented as .
+# White is represented as .
 q0 q1 q2 q3 q4 q5 q6 # States
 a b             # String alphabet
 a b .           # Tape alphabet
