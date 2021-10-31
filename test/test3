@@ -7,26 +7,28 @@ q0 q1 q2 q3 q4        # States
 q0                    # Initial state
 q4                    # Accepting states
 2                     # Number of tapes
+# Transitions. Format:
+# {state} {list of inputs} {destination state} {list of outpus} {list of movements}
 # q0
-q0 q0 1 R 1 . S .     # Transitions. The last three character have to be repeated for each tape
-q0 q0 0 R 0 . R 0
-q0 q1 . L . . R .
-# q1
-q1 q1 1 L 1 . R 1
-q1 q1 0 L 0 . S .
-q1 q2 . R . . L .
-# q2
-q2 q2 1 R 1 1 S 1
-q2 q2 0 R 0 1 S 1
-q2 q3 . L . 1 S 1
-q2 q4 . L . . S .
-# q3
-q3 q3 0 L 0 0 L 0
-q3 q3 1 L 0 0 L 0
-q3 q3 . L 0 0 L 0
-q3 q3 0 L 1 1 L 1
-q3 q3 1 L 1 1 L 1
-q3 q3 . L 1 1 L 1
-q3 q3 0 L . . L .
-q3 q3 1 L . . L .
-q3 q4 . R . . R .
+q0 1 . q0 1 R . S
+q0 0 . q0 0 R 0 R
+q0 . . q1 . L . R
+# q    1        
+q1 1 . q1 1 L 1 R
+q1 0 . q1 0 L . S
+q1 . . q2 . R . L
+# q    2        
+q2 1 1 q2 1 R 1 S
+q2 0 1 q2 0 R 1 S
+q2 . 1 q3 . L 1 S
+q2 . . q4 . L . S
+# q    3        
+q3 0 0 q3 0 L 0 L
+q3 1 0 q3 0 L 0 L
+q3 . 0 q3 0 L 0 L
+q3 0 1 q3 1 L 1 L
+q3 1 1 q3 1 L 1 L
+q3 . 1 q3 1 L 1 L
+q3 0 . q3 . L . L
+q3 1 . q3 . L . L
+q3 . . q4 . R . R

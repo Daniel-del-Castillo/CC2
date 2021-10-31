@@ -105,23 +105,21 @@ void TuringMachineReader::add_transition(const string& line, int id) {
     if (tokens.size() != 2 + size_t(number_of_tapes) * 3) {
         throw logic_error("Invalid transition: " + line);
     }
-    string state_name = tokens[0];
-    if (states.count(state_name) == 0) {
-        throw logic_error("State (" + state_name + ") isn't registered");
+    if (states.count(tokens[0]) == 0) {
+        throw logic_error("State (" + tokens[0] + ") isn't registered");
     }
     Transition transition = read_transition(tokens, id);
     try {
-        states.at(state_name).add_transition(transition);
+        states.at(tokens[0]).add_transition(transition);
     } catch (logic_error& error) {
         throw logic_error("Transition \"" + line + 
             "\" has the same input as another transition from the same state");
     }
 }
 
-Transition TuringMachineReader::read_transition(vector<string>& tokens, int id) const {
+Transition TuringMachineReader::read_transition(const vector<string>& tokens, int id) const {
     string initial_state = tokens[0];
-    string destination_state = tokens[1];
-    tokens.erase(tokens.begin(), tokens.begin() + 2);
+    string destination_state = tokens[1 + number_of_tapes];
     vector<Action> transition_actions = read_actions(tokens);
     Transition transition(destination_state, transition_actions, id);
     return transition;
@@ -129,15 +127,17 @@ Transition TuringMachineReader::read_transition(vector<string>& tokens, int id) 
 
 vector<Action> TuringMachineReader::read_actions(const vector<string>& tokens) const {
     vector<Action> actions;
-    for (size_t i = 0; i < tokens.size(); i += 3) {
-        actions.push_back(
-            read_action(tokens[i][0], tokens[i + 1][0], tokens[i + 2][0])
-        );
+    for (int i = 1; i < number_of_tapes + 1; i++) {
+        actions.push_back(read_action(
+            tokens[i][0],
+            tokens[i * 2 + number_of_tapes][0],
+            tokens[i * 2 + 1 + number_of_tapes][0]
+        ));
     }
     return actions; 
 }
 
-Action TuringMachineReader::read_action(char input, char move, char output) const {
+Action TuringMachineReader::read_action(char input, char output, char move) const {
     if (move != Movement::Left &&
         move != Movement::Right &&
         move != Movement::Stay) {
@@ -146,7 +146,7 @@ Action TuringMachineReader::read_action(char input, char move, char output) cons
             "\" must represent a movement: Right(R), Left(L) or Stay(S)"
         );
     }
-    Action new_action(input, Movement(move), output);
+    Action new_action(input, output, Movement(move));
     return new_action;
 }
 

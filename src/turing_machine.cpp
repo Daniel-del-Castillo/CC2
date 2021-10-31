@@ -78,6 +78,7 @@ void TuringMachine::check_action_integrity(const Action& action) const {
 }
 
 bool TuringMachine::check_string(const string& s) {
+    // check 
     reset_tapes();
     tapes[0].set_content(s);
     actual_state = initial_state;

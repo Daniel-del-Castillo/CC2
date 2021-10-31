@@ -30,7 +30,7 @@ class TuringMachineReader {
     void add_accepting_states(const std::string& line);
     void add_transitions(std::istream &input);
     void add_transition(const std::string& line, int id);
-    Transition read_transition(std::vector<std::string>& tokens, int id) const;
+    Transition read_transition(const std::vector<std::string>& tokens, int id) const;
     std::vector<Action> read_actions(const std::vector<std::string>& tokens) const;
     Action read_action(char input, char move, char output) const;
     std::vector<std::string> split_whitespace(const std::string& line) const;

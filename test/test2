@@ -7,15 +7,17 @@ a b .                 # Tape alphabet
 q0                    # Initial state
 q1                    # Accepting states
 2                     # Number of tapes
-q0 q0 a R a . R a     # Transitions. The last three character have to be repeated for each tape
-q0 q0 b R b . R b
-q0 q1 . L . . L .
-q1 q1 a L a a S a
-q1 q1 b L b b S b
-q1 q1 a L a b S b
-q1 q1 b L b a S a
-q1 q2 . R . a S a
-q1 q2 . R . b S b
-q2 q2 a R a a L a
-q2 q2 b R b b L b
-q2 q1 . S . . S .
+# Transitions. Format:
+# {state} {list of inputs} {destination state} {list of outpus} {list of movements}
+q0 a . q0 a R a R
+q0 b . q0 b R b R
+q0 . . q1 . L . L
+q1 a a q1 a L a S
+q1 b b q1 b L b S
+q1 a b q1 a L b S
+q1 b a q1 b L a S
+q1 . a q2 . R a S
+q1 . b q2 . R b S
+q2 a a q2 a R a L
+q2 b b q2 b R b L
+q2 . . q1 . S . S
