@@ -78,7 +78,11 @@ void TuringMachine::check_action_integrity(const Action& action) const {
 }
 
 bool TuringMachine::check_string(const string& s) {
-    // check 
+    for (char c : s) {
+        if (!string_alphabet.contains(c)) {
+            return false;
+        }
+    }
     reset_tapes();
     tapes[0].set_content(s);
     actual_state = initial_state;
