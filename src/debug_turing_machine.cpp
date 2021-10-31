@@ -118,7 +118,7 @@ bool DebugTuringMachine::apply_transition(const optional<Transition>& transition
         cout << YELLOW << setw(50) << tape_to_string(tapes[i]) << " " << GREEN << SEPARATOR;
         cout << setw(15) << " " << "\n";
     }
-    cout << setw(13) << SEPARATOR << setw(50) << SEPARATOR << "\n" << RESET_COLOR;
+    cout << GREEN << setw(13) << SEPARATOR << setw(50) << SEPARATOR << "\n" << RESET_COLOR;
     return TuringMachine::apply_transition(transition);
 }
 
