@@ -1,11 +1,11 @@
 # Turing machine to recognize the following language:
 #  L = {a^nb^m | m < n, n > 0}
 # White is represented as .
-q0 q1 q2 q3 q4 q5 q6 # States
+q0 q1 q2 q3 q4 q5 # States
 a b             # String alphabet
 a b .           # Tape alphabet
 q0              # Initial state
-q6              # Accepting states
+q5              # Accepting states
 1               # Number of tapes
 # Transitions. Format:
 # {state} {list of inputs} {destination state} {list of outpus} {list of movements}
@@ -15,6 +15,7 @@ q1 b q1 b R
 q1 . q2 . L
 q2 b q3 . L
 q2 a q4 a L
+q2 . q4 . S
 q3 a q3 a L
 q3 b q3 b L
 q3 . q0 . R
