@@ -19,6 +19,7 @@ class TuringMachine {
     std::map<std::string, State> states;
     std::string initial_state;
     std::string actual_state;
+    char blank_symbol;
     std::vector<Tape> tapes;
     
     public: 
@@ -27,7 +28,8 @@ class TuringMachine {
         Alphabet tape_alphabet,
         std::map<std::string, State> states,
         std::string initial_state,
-        int number_of_tapes
+        int number_of_tapes,
+        char blank_symbol
     );
     virtual ~TuringMachine();
     virtual bool check_string(const std::string& s);

@@ -14,13 +14,14 @@ DebugTuringMachine::DebugTuringMachine(
     Alphabet tape_alphabet,
     map<string, State> states,
     string initial_state,
-    int number_of_tapes
-) : TuringMachine(string_alphabet, tape_alphabet, states, initial_state, number_of_tapes) {
+    int number_of_tapes,
+    char blank_symbol
+) : TuringMachine(string_alphabet, tape_alphabet, states, initial_state, number_of_tapes, blank_symbol) {
     cout << BLUE << "Q: " << states_to_string(states) << "\n"; 
     cout << BLUE << "Σ: " << alphabet_to_string(string_alphabet) << "\n"; 
     cout << BLUE << "Γ: " << alphabet_to_string(tape_alphabet) << "\n"; 
     cout << BLUE << "S: " << YELLOW << initial_state << "\n"; 
-    cout << BLUE << "White: " << YELLOW << WHITE << "\n"; 
+    cout << BLUE << "White: " << YELLOW << blank_symbol << "\n"; 
     cout << BLUE << "Accepting states: " << accepting_states_to_string(states) << "\n"; 
     print_transitions(states);
 }

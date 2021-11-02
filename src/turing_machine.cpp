@@ -13,13 +13,15 @@ TuringMachine::TuringMachine(
     Alphabet tape_alphabet,
     std::map<std::string, State> states,
     std::string initial_state,
-    int number_of_tapes
+    int number_of_tapes,
+    char blank_symbol
 ):
     string_alphabet(string_alphabet),
     tape_alphabet(tape_alphabet),
     states(states),
     initial_state(initial_state),
-    tapes(number_of_tapes, Tape()) {
+    blank_symbol(blank_symbol),
+    tapes(number_of_tapes, Tape(blank_symbol)) {
         if(number_of_tapes < 1) {
             throw logic_error("The number of tapes must be greater than 0");
         }
@@ -33,9 +35,9 @@ void TuringMachine::check_integrity() const {
         throw logic_error("Initial state (" + initial_state + 
             ") isn't part of the states");
     }
-    if (string_alphabet.contains(WHITE)) {
+    if (string_alphabet.contains(blank_symbol)) {
         throw logic_error(
-            string("The string alphabet can't contain the white token (") + WHITE + ")"
+            string("The string alphabet can't contain the white token (") + blank_symbol + ")"
         );
     }
     for (auto& name_state_pair : states) {

@@ -1,12 +1,12 @@
 # Turing machine to separate 0s and 1s
 #  1010101 -> 000.1111
-# White is represented as .
 q0 q1 q2 q3 q4        # States
 1 0                   # String alphabet
 1 0 .                 # Tape alphabet
 q0                    # Initial state
 q4                    # Accepting states
 2                     # Number of tapes
+.                     # Blank symbol
 # Transitions. Format:
 # {state} {list of inputs} {destination state} {list of outpus} {list of movements}
 # q0

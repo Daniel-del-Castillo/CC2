@@ -5,8 +5,6 @@
 #include <string>
 #include <stdexcept>
 
-#define WHITE '.'
-
 enum Movement {
     Left = 'L',
     Right = 'R',
@@ -16,9 +14,10 @@ enum Movement {
 class Tape {
     std::deque<char> contents;    
     std::deque<char>::iterator actual_position;
+    char blank_symbol;
     
     public:
-    Tape();
+    Tape(char blank_symbol);
     void set_content(const std::string& content);
     void clear();
     char read() const;

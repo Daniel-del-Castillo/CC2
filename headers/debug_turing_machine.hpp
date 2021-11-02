@@ -22,7 +22,8 @@ class DebugTuringMachine : TuringMachine {
         Alphabet tape_alphabet,
         std::map<std::string, State> states,
         std::string initial_state,
-        int number_of_tapes
+        int number_of_tapes,
+        char blank_symbol
     );
     bool check_string(const std::string& s) override;
     

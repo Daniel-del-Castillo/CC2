@@ -16,10 +16,11 @@ TuringMachine* TuringMachineReader::read_turing_machine_from_stream(istream& inp
     states = read_states(read_line(input));
     string_alphabet = read_alphabet(read_line(input));
     tape_alphabet = read_alphabet(read_line(input));
-    tape_alphabet.add_token(WHITE);
     string initial_state = split_whitespace(read_line(input))[0];
     add_accepting_states(read_line(input));
     number_of_tapes = stoi(read_line(input));
+    char blank_symbol = read_line(input)[0];
+    tape_alphabet.add_token(blank_symbol);
     add_transitions(input);
     if (debug) {
         return (TuringMachine*) new DebugTuringMachine(
@@ -27,7 +28,8 @@ TuringMachine* TuringMachineReader::read_turing_machine_from_stream(istream& inp
             tape_alphabet,
             states,
             initial_state,
-            number_of_tapes
+            number_of_tapes,
+            blank_symbol
         );
     } else {
         return new TuringMachine(
@@ -35,7 +37,8 @@ TuringMachine* TuringMachineReader::read_turing_machine_from_stream(istream& inp
             tape_alphabet,
             states,
             initial_state,
-            number_of_tapes
+            number_of_tapes,
+            blank_symbol
         );
     }
 }

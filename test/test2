@@ -1,12 +1,12 @@
 # Turing machine to recognize the following language:
 #  L = {w | w is palindrome}
-# White is represented as .
 q0 q1 q2              # States
 a b                   # String alphabet
 a b .                 # Tape alphabet
 q0                    # Initial state
 q1                    # Accepting states
 2                     # Number of tapes
+.                     # Blank symbol
 # Transitions. Format:
 # {state} {list of inputs} {destination state} {list of outpus} {list of movements}
 q0 a . q0 a R a R
