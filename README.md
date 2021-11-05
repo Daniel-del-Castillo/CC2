@@ -7,7 +7,6 @@ The code is in C++ and you can compile it yourself or use the makefile prepared 
 ```sh
 make
 ```
-**Note**: Remember to create the `bin` directory before calling `make`
 
 # Use
 You need a file defining a turing machine. You can find some examples inside the `test` folder. After loading a definition the program will prompt you to write a string. The automaton will check if that string belongs to the language it recognizes. You can exit the program by writing `exit`.
